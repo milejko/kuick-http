@@ -1,0 +1,51 @@
+{
+    "name": "kuick/http",
+    "type": "library",
+    "description": "Kuick HTTP is a slim PSR-15 implementation",
+    "keywords": ["psr-15", "http", "http request handler", "middleware implementation", "kuick"],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Mariusz Miłejko",
+            "email": "mariusz@milejko.pl"
+        }
+    ],
+    "provide": {
+        "psr/http-server-handler-implementation": "^1.0",
+        "psr/http-server-middleware-implementation": "^1.0"
+    },
+    "require": {
+        "php": ">=8.2.0",
+        "nyholm/psr7": "^1.8",
+        "nyholm/psr7-server": "^1.1",
+        "psr/http-server-handler": "^1.0.2",
+        "psr/http-server-middleware": "^1.0.2",
+        "psr/log": "^3.0"
+    },
+    "scripts": {
+        "fix:phpcbf": "phpcbf --standard=PSR12 src tests",
+        "test:phpstan": "XDEBUG_MODE=off phpstan --level=9 --no-progress --memory-limit=512M analyse src tests",
+        "test:phpcs": "phpcs -n --standard=PSR12 ./src ./tests",
+        "test:phpmd": "phpmd src text cleancode,codesize,controversial,design,naming,unusedcode",
+        "test:phpunit": "XDEBUG_MODE=coverage phpunit",
+        "test:all": [
+            "@test:phpcs",
+            "@test:phpstan",
+            "@test:phpmd",
+            "@test:phpunit"
+        ]
+    },
+    "autoload": {
+        "psr-4": {
+            "Kuick\\Http\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Kuick\\Http\\": "tests"
+        }
+    },
+    "require-dev": {
+        "kuick/qa-toolkit": "^1.0"
+    }
+}
