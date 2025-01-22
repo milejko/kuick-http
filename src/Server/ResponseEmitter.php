@@ -17,7 +17,7 @@ use Psr\Http\Message\ResponseInterface;
  */
 class ResponseEmitter
 {
-    public function __invoke(ResponseInterface $response): void
+    public function emitResponse(ResponseInterface $response): void
     {
         //set response code
         http_response_code($response->getStatusCode());

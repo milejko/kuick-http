@@ -21,7 +21,7 @@ class ResponseEmmiterTest extends TestCase
     {
         $response = new JsonResponse(['test']);
         ob_start();
-        (new ResponseEmitter())($response);
+        (new ResponseEmitter())->emitResponse($response);
         $content = ob_get_clean();
         assertEquals('["test"]', $content);
         assertEquals(['Content-Type: application/json'], xdebug_get_headers());

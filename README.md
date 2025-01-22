@@ -22,6 +22,7 @@
 use Kuick\Http\RequestHandler;
 use Kuick\Http\Server\ExceptionJsonRequestHandler;
 use Nyholm\Psr7\ServerRequest;
+use Psr\Log\NullLogger;
 
 $request = new ServerRequest('GET', '/something');
 
@@ -34,4 +35,15 @@ $response = $handler->handle($request);
 // 404, the response implements PSR-7 ResponseInterface
 echo $response->getStatusCode();
 
+```
+2. Emitting PSR-7 response
+```
+<?php
+
+use Kuick\Http\Message\JsonResponse;
+use Kuick\Http\Server\ResponseEmitter;
+
+$emitter = new ResponseEmitter();
+$response = new JsonResponse(['message' => 'test']);
+$emitter->emitResponse($response);
 ```
