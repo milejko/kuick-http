@@ -11,78 +11,27 @@
 ### Key features
 1. PSR-15 (https://www.php-fig.org/psr/psr-15/) implementation
 2. PSR-7 Response Emitter
-3. Listener prioritization
-4. Support for wildcard listeners (ie. *, Prefix*)
+3. PSR-7 Response implementation with JsonResponse extension
+4. Handful HTTP error based Exception collection
 
 ### Examples
-1. Registering listeners to the listener provider
+1. Using RequestHandler
 ```
 <?php
 
-use Kuick\Event\EventDispatcher;
-use Kuick\Event\ListenerProvider;
+use Kuick\Http\RequestHandler;
+use Kuick\Http\Server\ExceptionJsonRequestHandler;
+use Nyholm\Psr7\ServerRequest;
 
-$provider = new ListenerProvider();
-$provider->registerListener(
-    'some class name or pattern',
-    function () {
-        //handle the event
-    }
-);
+$request = new ServerRequest('GET', '/something');
 
-$dispatcher = new EventDispatcher($provider);
-// $dispatcher->dispatch(new SomeEvent());
-```
-2. Listener prioritization (using stdClass as an event)
-```
-<?php
+// request handler needs a fallback, exception handling handler
+$exceptionHandler = new ExceptionJsonRequestHandler(new NullLogger());
 
-use stdClass;
-use Kuick\Event\EventDispatcher;
-use Kuick\Event\ListenerPriority;
-use Kuick\Event\ListenerProvider;
+$handler = new RequestHandler($exceptionHandler);
+$response = $handler->handle($request);
 
-$provider = new ListenerProvider();
-$provider->registerListener(
-    stdClass::class,
-    function (stdClass $event) {
-        //handle the event
-    },
-    ListenerPriority::HIGH
-);
-$provider->registerListener(
-    stdClass::class,
-    function (stdClass $event) {
-        //handle the event
-    },
-    ListenerPriority::LOW
-);
-$dispatcher = new EventDispatcher($provider);
-// it should handle the event with high priority listener first
-$dispatcher->dispatch(new stdClass());
-```
-3. Registering wildcard listeners (using stdClass as an event)
-```
-<?php
+// 404, the response implements PSR-7 ResponseInterface
+echo $response->getStatusCode();
 
-use stdClass;
-use Kuick\Event\EventDispatcher;
-use Kuick\Event\ListenerProvider;
-
-$provider = new ListenerProvider();
-$provider->registerListener(
-    '*',
-    function (object $event) {
-        //handle the event
-    }
-);
-$provider->registerListener(
-    'std*',
-    function (object $event) {
-        //handle the event
-    }
-);
-$dispatcher = new EventDispatcher($provider);
-// it should match both listeners and run them sequentialy
-$dispatcher->dispatch(new stdClass());
 ```

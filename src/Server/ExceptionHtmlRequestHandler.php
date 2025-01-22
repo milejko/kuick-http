@@ -10,29 +10,19 @@
 
 namespace Kuick\Http\Server;
 
+use Exception;
 use Kuick\Http\Message\Response;
 use Kuick\Http\Server\ExceptionRequestHandlerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Log\LoggerInterface;
 use Psr\Log\LogLevel;
-use Exception;
 
 /**
  * Exception Handler (rendering HTML)
  */
 class ExceptionHtmlRequestHandler implements ExceptionRequestHandlerInterface
 {
-    private const EXCEPTION_CODE_LOG_LEVEL_MAP = [
-        Response::HTTP_NOT_FOUND => LogLevel::NOTICE,
-        Response::HTTP_UNAUTHORIZED => LogLevel::NOTICE,
-        Response::HTTP_BAD_REQUEST => LogLevel::NOTICE,
-        Response::HTTP_METHOD_NOT_ALLOWED => LogLevel::NOTICE,
-        Response::HTTP_FORBIDDEN => LogLevel::NOTICE,
-        Response::HTTP_CONFLICT => LogLevel::NOTICE,
-        Response::HTTP_NOT_IMPLEMENTED => LogLevel::WARNING,
-    ];
-
     private Exception $exception;
 
     public function __construct(private LoggerInterface $logger)
@@ -48,7 +38,7 @@ class ExceptionHtmlRequestHandler implements ExceptionRequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        $logLevel = self::EXCEPTION_CODE_LOG_LEVEL_MAP[$this->exception->getCode()] ?? LogLevel::ERROR;
+        $logLevel = ExceptionCodeMap::LOG_LEVEL[$this->exception->getCode()] ?? LogLevel::ERROR;
         $this->logger->log(
             $logLevel,
             $this->getResponseCode() >= Response::HTTP_INTERNAL_SERVER_ERROR ?
