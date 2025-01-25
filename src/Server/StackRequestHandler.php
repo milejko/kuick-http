@@ -10,23 +10,20 @@
 
 namespace Kuick\Http\Server;
 
-use Kuick\Http\NotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use Exception;
 
 /**
- * Request Handler using middleware stack with Exception handler
+ * Stack Request Handler implementing the PSR-15 RequestHandlerInterface.
  */
-class RequestHandler implements RequestHandlerInterface
+class StackRequestHandler implements RequestHandlerInterface
 {
     private array $middlewares = [];
 
-    public function __construct(
-        private ExceptionRequestHandlerInterface $exceptionHandler,
-    ) {
+    public function __construct(private RequestHandlerInterface $fallbackHandler)
+    {
     }
 
     public function addMiddleware(MiddlewareInterface $middleware): self
@@ -37,17 +34,11 @@ class RequestHandler implements RequestHandlerInterface
 
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
-        try {
-            // Last middleware in the queue has called on the request handler.
-            if (empty($this->middlewares)) {
-                throw new NotFoundException('Not found');
-            }
-            $middleware = array_shift($this->middlewares);
-            return $middleware->process($request, $this);
-        } catch (Exception $throwable) {
-            return $this->exceptionHandler
-                ->setException($throwable)
-                ->handle($request);
+        // Last middleware in the queue has called on the request handler.
+        if (empty($this->middlewares)) {
+            return $this->fallbackHandler->handle($request);
         }
+        $middleware = array_shift($this->middlewares);
+        return $middleware->process($request, $this);
     }
 }

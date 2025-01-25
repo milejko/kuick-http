@@ -9,27 +9,26 @@
 ## Kuick PSR-15 implementation of HTTP Server Request Handlers
 
 ### Key features
-1. PSR-15 (https://www.php-fig.org/psr/psr-15/) implementation
+1. PSR-15 (https://www.php-fig.org/psr/psr-15/) Request Handler implementation (Stack with a fallback)
 2. PSR-7 Response Emitter
 3. PSR-7 Response implementation with JsonResponse extension
-4. Handful HTTP error based Exception collection
 
 ### Examples
 1. Using RequestHandler
 ```
 <?php
 
-use Kuick\Http\RequestHandler;
-use Kuick\Http\Server\ExceptionJsonRequestHandler;
+use Kuick\Http\StackRequestHandler;
+use Kuick\Http\Server\JsonNotFoundRequestHandler;
 use Nyholm\Psr7\ServerRequest;
-use Psr\Log\NullLogger;
 
 $request = new ServerRequest('GET', '/something');
 
-// request handler needs a fallback, exception handling handler
-$exceptionHandler = new ExceptionJsonRequestHandler(new NullLogger());
-
-$handler = new RequestHandler($exceptionHandler);
+// handler needs a fallback handler, using JSON one
+$handler = new StackRequestHandler(new JsonNotFoundRequestHandler());
+// middlewares
+// $handler->addMiddleware($someMiddleware);
+// $handler->addMiddleware($anotherMiddleware);
 $response = $handler->handle($request);
 
 // 404, the response implements PSR-7 ResponseInterface

@@ -8,11 +8,10 @@
  * @license    https://en.wikipedia.org/wiki/BSD_licenses New BSD License
  */
 
-namespace Kuick\Http;
+namespace Kuick\Http\Server;
 
-use Kuick\Http\Message\Response;
+use Psr\Http\Server\RequestHandlerInterface;
 
-class MethodNotAllowedException extends ResponseException
+interface FallbackRequestHandlerInterface extends RequestHandlerInterface
 {
-    protected $code = Response::HTTP_METHOD_NOT_ALLOWED;
 }
