@@ -20,7 +20,7 @@ class StackRequestHandlerTest extends TestCase
         $handler = new StackRequestHandler($exceptionHandler);
         $response = $handler->handle($request);
         $this->assertEquals(404, $response->getStatusCode());
-        $this->assertEquals('{"error":"Not found"}', $response->getBody()->getContents());
+        $this->assertEquals('{"error":"Not Found"}', $response->getBody()->getContents());
     }
 
     public function testIfHandlerProperlyPassesHandlingToTheMiddleware(): void

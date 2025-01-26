@@ -23,7 +23,7 @@ class JsonNotFoundRequestHandler implements FallbackRequestHandlerInterface
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         return new JsonResponse(
-            ['error' => 'Not found'],
+            ['error' => 'Not Found'],
             JsonResponse::HTTP_NOT_FOUND,
             ['X-Request' => base64_encode($request->getUri()->getPath())]
         );
@@ -32,7 +32,7 @@ class JsonNotFoundRequestHandler implements FallbackRequestHandlerInterface
     public function handleError(Throwable $exception): ResponseInterface
     {
         return new JsonResponse(
-            ['error' => 'Internal server error'],
+            ['error' => 'Internal Server Error'],
             JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
             ['X-Error' => $exception->getMessage()]
         );

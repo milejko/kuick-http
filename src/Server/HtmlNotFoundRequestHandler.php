@@ -25,7 +25,7 @@ class HtmlNotFoundRequestHandler implements FallbackRequestHandlerInterface
         return new Response(
             Response::HTTP_NOT_FOUND,
             ['X-Request' => base64_encode($request->getUri()->getPath())],
-            '<h1>404 Not found</h1>'
+            '<h1>404 Not Found</h1>'
         );
     }
 
@@ -34,7 +34,7 @@ class HtmlNotFoundRequestHandler implements FallbackRequestHandlerInterface
         return new Response(
             Response::HTTP_INTERNAL_SERVER_ERROR,
             ['X-Error' => $exception->getMessage()],
-            '<h1>500 Internal server error</h1>'
+            '<h1>500 Internal Server Error</h1>'
         );
     }
 }
