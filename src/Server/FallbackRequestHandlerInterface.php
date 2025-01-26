@@ -10,8 +10,11 @@
 
 namespace Kuick\Http\Server;
 
+use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Server\RequestHandlerInterface;
+use Throwable;
 
 interface FallbackRequestHandlerInterface extends RequestHandlerInterface
 {
+    public function handleError(Throwable $exception): ResponseInterface;
 }

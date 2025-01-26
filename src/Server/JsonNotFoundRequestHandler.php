@@ -13,6 +13,7 @@ namespace Kuick\Http\Server;
 use Kuick\Http\Message\JsonResponse;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Throwable;
 
 /**
  * JSON not found handler
@@ -24,6 +25,16 @@ class JsonNotFoundRequestHandler implements FallbackRequestHandlerInterface
         return new JsonResponse(
             ['error' => 'Not found'],
             JsonResponse::HTTP_NOT_FOUND,
+            ['X-Request' => base64_encode($request->getUri()->getPath())]
+        );
+    }
+
+    public function handleError(Throwable $exception): ResponseInterface
+    {
+        return new JsonResponse(
+            ['error' => 'Internal server error'],
+            JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
+            ['X-Error' => $exception->getMessage()]
         );
     }
 }
