@@ -22,7 +22,7 @@ class StackRequestHandler implements RequestHandlerInterface
 {
     private array $middlewares = [];
 
-    public function __construct(private RequestHandlerInterface $fallbackHandler)
+    public function __construct(private FallbackRequestHandlerInterface $fallbackHandler)
     {
     }
 
