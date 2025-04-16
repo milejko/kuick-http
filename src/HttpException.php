@@ -10,24 +10,21 @@
 
 namespace Kuick\Http;
 
+use InvalidArgumentException;
 use RuntimeException;
-use Throwable;
 
 class HttpException extends RuntimeException
 {
-    public function __construct(
-        string $message = 'Internal Server Error',
-        int $code = 500,
-        ?Throwable $previous = null
-    ) {
+    public function __construct(int $code = 500, string $message = 'Internal Server Error')
+    {
         $this->validateCode($code);
-        parent::__construct($message, $code, $previous);
+        parent::__construct($message, $code);
     }
 
     private function validateCode(int $code): void
     {
         if ($code < 100 || $code > 599) {
-            throw new RuntimeException('Invalid HTTP status code: ' . $code);
+            throw new InvalidArgumentException('Invalid HTTP status code: ' . $code);
         }
     }
 }

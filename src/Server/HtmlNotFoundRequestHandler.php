@@ -10,6 +10,7 @@
 
 namespace Kuick\Http\Server;
 
+use Kuick\Http\HttpException;
 use Kuick\Http\Message\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -20,6 +21,8 @@ use Throwable;
  */
 class HtmlNotFoundRequestHandler implements FallbackRequestHandlerInterface
 {
+    private const DEFAULT_ERROR_MESSAGE = '<body><h1>Internal Server Error</h1></body>';
+
     public function handle(ServerRequestInterface $request): ResponseInterface
     {
         return new Response(
@@ -32,9 +35,9 @@ class HtmlNotFoundRequestHandler implements FallbackRequestHandlerInterface
     public function handleError(Throwable $exception): ResponseInterface
     {
         return new Response(
-            Response::HTTP_INTERNAL_SERVER_ERROR,
+            $exception instanceof HttpException ? $exception->getCode() : Response::HTTP_INTERNAL_SERVER_ERROR,
             ['X-Error' => $exception->getMessage()],
-            '<h1>500 Internal Server Error</h1>'
+            $exception instanceof HttpException ? $exception->getMessage() : self::DEFAULT_ERROR_MESSAGE
         );
     }
 }

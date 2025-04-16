@@ -3,6 +3,7 @@
 namespace Tests\Kuick\Unit\Http;
 
 use Exception;
+use Kuick\Http\HttpException;
 use Kuick\Http\Server\JsonNotFoundRequestHandler;
 use Nyholm\Psr7\ServerRequest;
 use PHPUnit\Framework\TestCase;
@@ -30,5 +31,15 @@ class JsonNotFoundRequestHandlerTest extends TestCase
         $this->assertEquals('{"error":"Internal Server Error"}', $response->getBody()->getContents());
         $this->assertEquals('application/json', $response->getHeaderLine('Content-Type'));
         $this->assertEquals('Something went wrong', $response->getHeaderLine('X-Error'));
+    }
+
+    public function testIfCustomErrorIsGeneratedForTheHttpException(): void
+    {
+        $notFoundHandler = new JsonNotFoundRequestHandler();
+        $response = $notFoundHandler->handleError(new HttpException(502, 'Custom 502'));
+        $this->assertEquals(502, $response->getStatusCode());
+        $this->assertEquals('{"error":"Custom 502"}', $response->getBody()->getContents());
+        $this->assertEquals('application/json', $response->getHeaderLine('Content-Type'));
+        $this->assertEquals('Custom 502', $response->getHeaderLine('X-Error'));
     }
 }
