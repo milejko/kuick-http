@@ -24,7 +24,7 @@ class HttpException extends RuntimeException
     private function validateCode(int $code): void
     {
         if ($code < 100 || $code > 599) {
-            throw new InvalidArgumentException('Invalid HTTP status code: ' . $code);
+            throw new InvalidArgumentException("Invalid HTTP status code: $code");
         }
     }
 }
