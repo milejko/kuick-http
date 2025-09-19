@@ -10,6 +10,7 @@
 
 namespace Kuick\Http\Server;
 
+use InvalidArgumentException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -26,10 +27,19 @@ class StackRequestHandler implements RequestHandlerInterface
     {
     }
 
-    public function addMiddleware(MiddlewareInterface $middleware): self
+    public function addMiddleware(MiddlewareInterface $middleware, ?string $beforeMiddlewareClassName = null): self
     {
-        $this->middlewares[] = $middleware;
-        return $this;
+        if (null === $beforeMiddlewareClassName) {
+            $this->middlewares[] = $middleware;
+            return $this;
+        }
+        foreach ($this->middlewares as $middlewareIndex => $middlewareInstance) {
+            if ($middlewareInstance instanceof $beforeMiddlewareClassName) {
+                array_splice($this->middlewares, $middlewareIndex, 0, [$middleware]);
+                return $this;
+            }
+        }
+        throw new InvalidArgumentException("Middleware of class {$beforeMiddlewareClassName} not found in the stack.");
     }
 
     public function handle(ServerRequestInterface $request): ResponseInterface
