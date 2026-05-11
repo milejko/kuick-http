@@ -36,7 +36,7 @@ class HtmlNotFoundRequestHandler implements FallbackRequestHandlerInterface
     {
         return new Response(
             $exception instanceof HttpException ? $exception->getCode() : Response::HTTP_INTERNAL_SERVER_ERROR,
-            ['X-Error' => $exception->getMessage()],
+            ['X-Error' => base64_encode($exception->getMessage())],
             $exception instanceof HttpException ? $exception->getMessage() : self::DEFAULT_ERROR_MESSAGE
         );
     }

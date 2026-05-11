@@ -37,6 +37,10 @@ class Response implements ResponseInterface
 
     private NyholmResponse $wrappedResponse;
 
+    /**
+     * @param array<string, string|string[]> $headers
+     * @param string|resource|StreamInterface|null $body
+     */
     public function __construct(int $status = 200, array $headers = [], $body = null, string $version = '1.1', ?string $reason = null)
     {
         $this->wrappedResponse = new NyholmResponse($status, $headers, $body, $version, $reason);

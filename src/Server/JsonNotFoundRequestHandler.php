@@ -37,7 +37,7 @@ class JsonNotFoundRequestHandler implements FallbackRequestHandlerInterface
         return new JsonResponse(
             ['error' => $exception instanceof HttpException ? $exception->getMessage() : self::DEFAULT_ERROR_MESSAGE],
             $exception instanceof HttpException ? $exception->getCode() : JsonResponse::HTTP_INTERNAL_SERVER_ERROR,
-            ['X-Error' => $exception->getMessage()]
+            ['X-Error' => base64_encode($exception->getMessage())]
         );
     }
 }

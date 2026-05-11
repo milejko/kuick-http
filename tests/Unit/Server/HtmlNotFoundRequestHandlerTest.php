@@ -27,6 +27,6 @@ class HtmlNotFoundRequestHandlerTest extends TestCase
         $response = $notFoundHandler->handleError(new Exception('Something went wrong'));
         $this->assertEquals(500, $response->getStatusCode());
         $this->assertEquals('<body><h1>Internal Server Error</h1></body>', $response->getBody()->getContents());
-        $this->assertEquals('Something went wrong', $response->getHeaderLine('X-Error'));
+        $this->assertEquals('Something went wrong', base64_decode($response->getHeaderLine('X-Error')));
     }
 }

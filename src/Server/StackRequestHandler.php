@@ -21,12 +21,14 @@ use Psr\Http\Server\RequestHandlerInterface;
  */
 class StackRequestHandler implements RequestHandlerInterface
 {
+    /** @var array<MiddlewareInterface> */
     private array $middlewares = [];
 
     public function __construct(private FallbackRequestHandlerInterface $fallbackHandler)
     {
     }
 
+    /** @SuppressWarnings(PHPMD.LongVariable) */
     public function addMiddleware(MiddlewareInterface $middleware, ?string $beforeMiddlewareClassName = null): self
     {
         if (null === $beforeMiddlewareClassName) {

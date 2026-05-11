@@ -14,8 +14,12 @@ class JsonResponse extends Response
 {
     private const DEFAULT_HEADER = ['Content-Type' => 'application/json'];
 
+    /**
+     * @param array<mixed> $body
+     * @param array<string, string|string[]> $headers
+     */
     public function __construct(array $body, int $code = self::HTTP_OK, array $headers = [])
     {
-        parent::__construct($code, array_merge($headers, self::DEFAULT_HEADER), json_encode($body));
+        parent::__construct($code, array_merge($headers, self::DEFAULT_HEADER), json_encode($body) ?: '');
     }
 }

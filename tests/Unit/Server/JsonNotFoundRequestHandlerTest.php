@@ -30,7 +30,7 @@ class JsonNotFoundRequestHandlerTest extends TestCase
         $this->assertEquals(500, $response->getStatusCode());
         $this->assertEquals('{"error":"Internal Server Error"}', $response->getBody()->getContents());
         $this->assertEquals('application/json', $response->getHeaderLine('Content-Type'));
-        $this->assertEquals('Something went wrong', $response->getHeaderLine('X-Error'));
+        $this->assertEquals('Something went wrong', base64_decode($response->getHeaderLine('X-Error')));
     }
 
     public function testIfCustomErrorIsGeneratedForTheHttpException(): void
@@ -40,6 +40,6 @@ class JsonNotFoundRequestHandlerTest extends TestCase
         $this->assertEquals(502, $response->getStatusCode());
         $this->assertEquals('{"error":"Custom 502"}', $response->getBody()->getContents());
         $this->assertEquals('application/json', $response->getHeaderLine('Content-Type'));
-        $this->assertEquals('Custom 502', $response->getHeaderLine('X-Error'));
+        $this->assertEquals('Custom 502', base64_decode($response->getHeaderLine('X-Error')));
     }
 }

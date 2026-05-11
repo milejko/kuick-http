@@ -1,7 +1,10 @@
 <?php
 
+namespace Tests\Kuick\Unit;
+
 use Kuick\Http\HttpException;
 use PHPUnit\Framework\TestCase;
+use InvalidArgumentException;
 
 /**
  * @covers Kuick\Http\HttpException
