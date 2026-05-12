@@ -4,15 +4,14 @@ namespace Tests\Kuick\Unit\Http\Message;
 
 use Kuick\Http\Message\Response;
 use Nyholm\Psr7\Factory\Psr17Factory;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertFalse;
 use function PHPUnit\Framework\assertTrue;
 
-/**
- * @covers \Kuick\Http\Message\Response
- */
+#[CoversClass(Response::class)]
 class ResponseTest extends TestCase
 {
     public function testIfSimpleJsonResponseIsWellFormatted(): void

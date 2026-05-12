@@ -3,13 +3,12 @@
 namespace Tests\Kuick\Unit;
 
 use Kuick\Http\HttpException;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 use InvalidArgumentException;
 
-/**
- * @covers Kuick\Http\HttpException
- */
-class HtmlExceptionTest extends TestCase
+#[CoversClass(HttpException::class)]
+class HttpExceptionTest extends TestCase
 {
     public function testIfBrokenHttpCodeGivesInvalidArgumentException(): void
     {

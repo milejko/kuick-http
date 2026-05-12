@@ -28,7 +28,7 @@ class StackRequestHandler implements RequestHandlerInterface
     {
     }
 
-    /** @SuppressWarnings(PHPMD.LongVariable) */
+    /** @SuppressWarnings(LongVariable) */
     public function addMiddleware(MiddlewareInterface $middleware, ?string $beforeMiddlewareClassName = null): self
     {
         if (null === $beforeMiddlewareClassName) {

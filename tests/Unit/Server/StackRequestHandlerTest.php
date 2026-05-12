@@ -7,11 +7,10 @@ use Kuick\Http\Server\StackRequestHandler;
 use Tests\Kuick\Http\Unit\Mocks\AnotherMockHttpMiddleware;
 use Tests\Kuick\Http\Unit\Mocks\MockHttpMiddleware;
 use Nyholm\Psr7\ServerRequest;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers Kuick\Http\Server\StackRequestHandler
- */
+#[CoversClass(StackRequestHandler::class)]
 class StackRequestHandlerTest extends TestCase
 {
     public function testIfHandlerProperlyPassesHandlingToTheExceptionHandler(): void

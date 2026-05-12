@@ -4,14 +4,13 @@ namespace Tests\Kuick\Unit\Http;
 
 use Kuick\Http\Message\JsonResponse;
 use Kuick\Http\Server\ResponseEmitter;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
 use function PHPUnit\Framework\assertEquals;
 
-/**
- * @covers \Kuick\Http\Server\ResponseEmitter
- */
-class ResponseEmmiterTest extends TestCase
+#[CoversClass(ResponseEmitter::class)]
+class ResponseEmitterTest extends TestCase
 {
     /**
      * Needs to be run in separate process, cause emmiter sends headers

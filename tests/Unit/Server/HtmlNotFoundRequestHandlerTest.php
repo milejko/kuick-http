@@ -5,11 +5,10 @@ namespace Tests\Kuick\Unit\Http;
 use Exception;
 use Kuick\Http\Server\HtmlNotFoundRequestHandler;
 use Nyholm\Psr7\ServerRequest;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers Kuick\Http\Server\HtmlNotFoundRequestHandler
- */
+#[CoversClass(HtmlNotFoundRequestHandler::class)]
 class HtmlNotFoundRequestHandlerTest extends TestCase
 {
     public function testIfHandlerProperlyPassesHandlingToTheExceptionHandler(): void

@@ -6,11 +6,10 @@ use Exception;
 use Kuick\Http\HttpException;
 use Kuick\Http\Server\JsonNotFoundRequestHandler;
 use Nyholm\Psr7\ServerRequest;
+use PHPUnit\Framework\Attributes\CoversClass;
 use PHPUnit\Framework\TestCase;
 
-/**
- * @covers Kuick\Http\Server\JsonNotFoundRequestHandler
- */
+#[CoversClass(JsonNotFoundRequestHandler::class)]
 class JsonNotFoundRequestHandlerTest extends TestCase
 {
     public function testIfNotFoundResponseIsGenerated(): void
